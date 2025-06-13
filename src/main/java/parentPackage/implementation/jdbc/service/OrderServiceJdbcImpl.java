@@ -54,22 +54,24 @@ public class OrderServiceJdbcImpl implements OrderService {
                 throw new BadRequestException("Order " + id + " is already paid. You cannot change products!");
             }
 
-            this.productJdbcRepository.addAmount(request.getProductId(), new ProductAmountRequest(-amount));
             List<ShoppingListItem> oderShoppingListItem = this.orderJdbcRepository.getShoppingList(id);
 
             for (ShoppingListItem shoppingListItem : oderShoppingListItem) {
                 if (shoppingListItem.getProductId() == request.getProductId()) {
                     request.setAmount(amount + shoppingListItem.getAmount());
+                    if (request.getAmount() < 0) {
+                        throw new BadRequestException("There is not enough amount of product " + request.getProductId() + "!");
+                    }
+                    this.productJdbcRepository.addAmount(request.getProductId(), new ProductAmountRequest(-amount));
                     return this.orderJdbcRepository.addAmount(id, request);
                 }
             }
-
             if (amount > 0) {
+                this.productJdbcRepository.addAmount(request.getProductId(), new ProductAmountRequest(-amount));
                 return this.orderJdbcRepository.addProduct(id, request);
             }
         }
-
-        throw new BadRequestException("Not enough amount of product " + request.getProductId() + "!");
+        throw new BadRequestException("There is not enough amount of product " + request.getProductId() + "!");
     }
 
     @Override

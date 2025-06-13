@@ -1,7 +1,7 @@
 create sequence order_id_seq start with 1 increment by 1;
 create sequence product_id_seq start with 1 increment by 1;
 
----- id, paid;
+-- id, paid;
 --INSERT INTO order VALUES
 --(next value for order_id_seq, TRUE),
 --(next value for order_id_seq, TRUE),

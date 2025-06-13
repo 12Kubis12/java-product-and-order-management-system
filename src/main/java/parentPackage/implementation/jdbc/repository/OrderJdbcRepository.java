@@ -115,9 +115,6 @@ public class OrderJdbcRepository {
 
     public OrderResponse addAmount(long id, AddToOrderRequest request) {
         try {
-            if (request.getAmount() < 0) {
-                throw new BadRequestException("There is not enough product!");
-            }
             this.jdbcTemplate.update(UPDATE_PRODUCT_AMOUNT, request.getAmount(), id, request.getProductId());
             OrderResponse orderResponse = this.getById(id);
             for (ShoppingListItem shoppingListItem : orderResponse.getShoppingList()) {
