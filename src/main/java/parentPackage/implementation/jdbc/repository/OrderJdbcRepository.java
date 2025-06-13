@@ -27,11 +27,11 @@ public class OrderJdbcRepository {
     private final JdbcTemplate jdbcTemplate;
     private final static Logger logger;
     private static final String GET_BY_ID;
-    private static final String GET_PRODUCTS_BY_ORDER_ID;
+    private static final String GET_SHOPPING_LIST;
     private static final String INSERT_ORDER;
+    private static final String INSERT_PRODUCT;
     private static final String UPDATE_ORDER;
     private static final String UPDATE_PRODUCT_AMOUNT;
-    private static final String INSERT_PRODUCT;
     private static final String DELETE_ORDER;
     private static final String DELETE_ORDER_SHOPPING_LIST;
     private static final String DELETE_ORDER_SHOPPING_LIST_ITEM;
@@ -39,11 +39,11 @@ public class OrderJdbcRepository {
     static {
         logger = LoggerFactory.getLogger(OrderJdbcRepository.class);
         GET_BY_ID = "SELECT * FROM order WHERE id = ?";
-        GET_PRODUCTS_BY_ORDER_ID = "SELECT product_id, amount FROM order_product WHERE order_id = ?";
+        GET_SHOPPING_LIST = "SELECT product_id, amount FROM order_product WHERE order_id = ?";
         INSERT_ORDER = "INSERT INTO order(id, paid) VALUES (next value for order_id_seq, ?)";
+        INSERT_PRODUCT = "INSERT INTO order_product(order_id, product_id, amount) VALUES (?, ?, ?)";
         UPDATE_ORDER = "UPDATE order SET paid = ? WHERE id = ?";
         UPDATE_PRODUCT_AMOUNT = "UPDATE order_product SET amount = ? WHERE order_id = ? AND product_id = ?";
-        INSERT_PRODUCT = "INSERT INTO order_product(order_id, product_id, amount) VALUES (?, ?, ?)";
         DELETE_ORDER = "DELETE FROM order WHERE id = ?";
         DELETE_ORDER_SHOPPING_LIST = "DELETE FROM order_product WHERE order_id = ?";
         DELETE_ORDER_SHOPPING_LIST_ITEM = "DELETE FROM order_product WHERE order_id = ? AND product_id = ?";
@@ -148,6 +148,6 @@ public class OrderJdbcRepository {
     }
 
     public List<ShoppingListItem> getShoppingList(long id) {
-        return this.jdbcTemplate.query(GET_PRODUCTS_BY_ORDER_ID, this.orderProductRowMapper, id);
+        return this.jdbcTemplate.query(GET_SHOPPING_LIST, this.orderProductRowMapper, id);
     }
 }
