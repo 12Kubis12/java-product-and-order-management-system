@@ -1,4 +1,4 @@
-package sk.streetofcode.productordermanagement;
+package parentPackage;
 
 import lombok.*;
 import org.junit.jupiter.api.Assertions;
