@@ -1,12 +1,12 @@
 create sequence order_id_seq start with 1 increment by 1;
 create sequence product_id_seq start with 1 increment by 1;
 
--- id, paid;
+-- id, paid, created_at, updated_at;
 --INSERT INTO order VALUES
---(next value for order_id_seq, TRUE),
---(next value for order_id_seq, TRUE),
---(next value for order_id_seq, FALSE),
---(next value for order_id_seq, FALSE);
+--(next value for order_id_seq, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+--(next value for order_id_seq, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+--(next value for order_id_seq, FALSE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+--(next value for order_id_seq, FALSE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- id, name, description, amount, price;
 --INSERT INTO product VALUES

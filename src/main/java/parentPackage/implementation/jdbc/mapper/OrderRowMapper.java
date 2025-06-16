@@ -6,6 +6,7 @@ import parentPackage.domain.OrderResponse;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 
 @Component
@@ -15,7 +16,9 @@ public class OrderRowMapper implements RowMapper<OrderResponse> {
         return new OrderResponse(
                 rs.getLong("id"),
                 new ArrayList<>(),
-                rs.getBoolean("paid")
+                rs.getBoolean("paid"),
+                rs.getTimestamp("created_at").toLocalDateTime().atOffset(ZoneOffset.UTC),
+                rs.getTimestamp("updated_at").toLocalDateTime().atOffset(ZoneOffset.UTC)
         );
     }
 }

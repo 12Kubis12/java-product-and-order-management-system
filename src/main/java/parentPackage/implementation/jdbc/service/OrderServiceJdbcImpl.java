@@ -35,7 +35,7 @@ public class OrderServiceJdbcImpl implements OrderService {
     @Override
     public String pay(long id) {
         if (this.get(id) != null) {
-            return this.calculateOrderPrice(this.orderJdbcRepository.payOder(id));
+            return this.calculateOrderPrice(this.orderJdbcRepository.editOrder(id, true));
         }
         return null;
     }

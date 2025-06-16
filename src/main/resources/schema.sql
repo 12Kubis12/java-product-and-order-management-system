@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS order;
 CREATE TABLE order (
   id bigint NOT NULL AUTO_INCREMENT,
   paid varchar(10) NOT NULL,
+  created_at datetime NOT NULL,
+  updated_at datetime NOT NULL,
   PRIMARY KEY (id)
 );
 

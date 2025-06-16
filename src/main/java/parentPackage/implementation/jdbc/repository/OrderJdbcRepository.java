@@ -18,6 +18,8 @@ import parentPackage.implementation.jdbc.mapper.OrderProductRowMapper;
 import parentPackage.implementation.jdbc.mapper.OrderRowMapper;
 
 import java.sql.PreparedStatement;
+import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Repository
@@ -40,9 +42,9 @@ public class OrderJdbcRepository {
         logger = LoggerFactory.getLogger(OrderJdbcRepository.class);
         GET_BY_ID = "SELECT * FROM order WHERE id = ?";
         GET_SHOPPING_LIST = "SELECT product_id, amount FROM order_product WHERE order_id = ?";
-        INSERT_ORDER = "INSERT INTO order(id, paid) VALUES (next value for order_id_seq, ?)";
+        INSERT_ORDER = "INSERT INTO order(id, paid, created_at, updated_at) VALUES (next value for order_id_seq, ?, ?, ?)";
         INSERT_PRODUCT = "INSERT INTO order_product(order_id, product_id, amount) VALUES (?, ?, ?)";
-        UPDATE_ORDER = "UPDATE order SET paid = ? WHERE id = ?";
+        UPDATE_ORDER = "UPDATE order SET paid = ?, updated_at = ? WHERE id = ?";
         UPDATE_PRODUCT_AMOUNT = "UPDATE order_product SET amount = ? WHERE order_id = ? AND product_id = ?";
         DELETE_ORDER = "DELETE FROM order WHERE id = ?";
         DELETE_ORDER_SHOPPING_LIST = "DELETE FROM order_product WHERE order_id = ?";
@@ -77,6 +79,8 @@ public class OrderJdbcRepository {
             this.jdbcTemplate.update(connection -> {
                 final PreparedStatement ps = connection.prepareStatement(INSERT_ORDER, PreparedStatement.RETURN_GENERATED_KEYS);
                 ps.setBoolean(1, false);
+                ps.setTimestamp(2, Timestamp.from(OffsetDateTime.now().toInstant()));
+                ps.setTimestamp(3, Timestamp.from(OffsetDateTime.now().toInstant()));
                 return ps;
             }, keyHolder);
 
@@ -106,6 +110,7 @@ public class OrderJdbcRepository {
     public OrderResponse addProduct(long id, AddToOrderRequest request) {
         try {
             this.jdbcTemplate.update(INSERT_PRODUCT, id, request.getProductId(), request.getAmount());
+            this.editOrder(id, false);
             return this.getById(id);
         } catch (DataAccessException e) {
             logger.error("Error while adding product {} to order {}!", request.getProductId(), id, e);
@@ -116,6 +121,7 @@ public class OrderJdbcRepository {
     public OrderResponse addAmount(long id, AddToOrderRequest request) {
         try {
             this.jdbcTemplate.update(UPDATE_PRODUCT_AMOUNT, request.getAmount(), id, request.getProductId());
+            this.editOrder(id, false);
             OrderResponse orderResponse = this.getById(id);
             for (ShoppingListItem shoppingListItem : orderResponse.getShoppingList()) {
                 if (shoppingListItem.getAmount() == 0) {
@@ -130,10 +136,10 @@ public class OrderJdbcRepository {
         }
     }
 
-    public OrderResponse payOder(long id) {
+    public OrderResponse editOrder(long id, boolean pay) {
         try {
             if (!this.getById(id).isPaid()) {
-                this.jdbcTemplate.update(UPDATE_ORDER, true, id);
+                this.jdbcTemplate.update(UPDATE_ORDER, pay, Timestamp.from(OffsetDateTime.now().toInstant()), id);
             } else {
                 throw new BadRequestException("Order " + id + " is already paid!");
             }
