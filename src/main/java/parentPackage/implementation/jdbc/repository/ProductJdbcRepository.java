@@ -12,11 +12,10 @@ import org.springframework.stereotype.Repository;
 import parentPackage.api.exception.BadRequestException;
 import parentPackage.api.exception.InternalErrorException;
 import parentPackage.api.exception.ResourceNotFoundException;
-import parentPackage.api.request.AddProductRequest;
-import parentPackage.api.request.ProductAmountRequest;
-import parentPackage.api.request.UpdateProductRequest;
-import parentPackage.domain.ProductAmountResponse;
-import parentPackage.domain.ProductResponse;
+import parentPackage.dto.request.AddProductRequest;
+import parentPackage.dto.request.ProductAmountRequest;
+import parentPackage.dto.request.UpdateProductRequest;
+import parentPackage.dto.response.ProductResponse;
 import parentPackage.implementation.jdbc.mapper.ProductRowMapper;
 
 import java.sql.PreparedStatement;
@@ -70,7 +69,7 @@ public class ProductJdbcRepository {
         }
     }
 
-    public ProductResponse add(AddProductRequest request) {
+    public long add(AddProductRequest request) {
         try {
             final KeyHolder keyHolder = new GeneratedKeyHolder();
             this.jdbcTemplate.update(connection -> {
@@ -91,8 +90,7 @@ public class ProductJdbcRepository {
                 throw new InternalErrorException("Error while adding product!");
             }
 
-            long id = keyHolder.getKey().longValue();
-            return this.getById(id);
+            return keyHolder.getKey().longValue();
         } catch (DataIntegrityViolationException e) {
             throw new BadRequestException("Product with name " + request.getName() + " already exists!");
         } catch (DataAccessException e) {
@@ -101,33 +99,22 @@ public class ProductJdbcRepository {
         }
     }
 
-    public ProductResponse update(long id, UpdateProductRequest request) {
+    public void update(long id, UpdateProductRequest request) {
         try {
             this.jdbcTemplate.update(UPDATE, request.getName(), request.getDescription(), request.getPrice(), id);
-            return this.getById(id);
         } catch (DataAccessException e) {
             logger.error("Error while updating product {}!", id, e);
             throw new InternalErrorException("Error while updating product " + id + "!");
         }
     }
 
-    public ProductAmountResponse getAmount(long id) {
-        try {
-            return new ProductAmountResponse(this.getById(id).getAmount());
-        } catch (DataAccessException e) {
-            logger.error("Error while getting amount of product {}!", id, e);
-            throw new InternalErrorException("Error while getting amount of product " + id + "!");
-        }
-    }
-
-    public ProductAmountResponse addAmount(long id, ProductAmountRequest request) {
+    public void updateAmount(long id, ProductAmountRequest request) {
         try {
             request.setAmount(request.getAmount() + this.getById(id).getAmount());
             if (request.getAmount() < 0) {
                 throw new BadRequestException("Amount of product " + id + " cannot be less than 0!");
             }
             this.jdbcTemplate.update(UPDATE_AMOUNT, request.getAmount(), id);
-            return new ProductAmountResponse(request.getAmount());
         } catch (DataAccessException e) {
             logger.error("Error while updating amount ({}) of product {}!", request.getAmount(), id, e);
             throw new InternalErrorException("Error while updating amount (" + request.getAmount() + ") of product " + id + "!");

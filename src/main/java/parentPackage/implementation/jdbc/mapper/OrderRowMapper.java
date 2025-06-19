@@ -2,7 +2,7 @@ package parentPackage.implementation.jdbc.mapper;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import parentPackage.domain.OrderResponse;
+import parentPackage.dto.response.OrderResponse;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

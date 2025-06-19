@@ -1,16 +1,16 @@
 package parentPackage.api;
 
-import parentPackage.api.request.AddToOrderRequest;
-import parentPackage.domain.OrderResponse;
+import parentPackage.dto.request.AddToOrderRequest;
+import parentPackage.dto.response.OrderResponse;
 
 public interface OrderService {
-    OrderResponse create();
+    OrderResponse get(long id);
+
+    OrderResponse add();
 
     String pay(long id);
 
     OrderResponse addProduct(long id, AddToOrderRequest request);
 
     void delete(long id);
-
-    OrderResponse get(long id);
 }

@@ -4,11 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import parentPackage.api.ProductService;
-import parentPackage.api.request.AddProductRequest;
-import parentPackage.api.request.ProductAmountRequest;
-import parentPackage.api.request.UpdateProductRequest;
-import parentPackage.domain.ProductAmountResponse;
-import parentPackage.domain.ProductResponse;
+import parentPackage.dto.request.AddProductRequest;
+import parentPackage.dto.request.ProductAmountRequest;
+import parentPackage.dto.request.UpdateProductRequest;
+import parentPackage.dto.response.ProductAmountResponse;
+import parentPackage.dto.response.ProductResponse;
 
 import java.util.List;
 
@@ -49,7 +49,7 @@ public class ProductController {
 
     @PostMapping("/{id}/amount")
     public ResponseEntity<ProductAmountResponse> addAmount(@PathVariable("id") long id, @RequestBody ProductAmountRequest request) {
-        return ResponseEntity.ok().body(this.productService.addAmount(id, request));
+        return ResponseEntity.ok().body(this.productService.updateAmount(id, request));
     }
 
     @DeleteMapping("/{id}")

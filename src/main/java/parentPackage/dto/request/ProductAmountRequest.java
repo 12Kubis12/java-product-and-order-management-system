@@ -1,4 +1,4 @@
-package parentPackage.api.request;
+package parentPackage.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddToOrderRequest {
-    private long productId;
+public class ProductAmountRequest {
     private long amount;
 }

@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import parentPackage.api.OrderService;
-import parentPackage.api.request.AddToOrderRequest;
-import parentPackage.domain.OrderResponse;
+import parentPackage.dto.request.AddToOrderRequest;
+import parentPackage.dto.response.OrderResponse;
 
 @RestController
 @RequestMapping("/order")
@@ -22,8 +22,8 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderResponse> create() {
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.orderService.create());
+    public ResponseEntity<OrderResponse> add() {
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.orderService.add());
     }
 
     @DeleteMapping("/{id}")

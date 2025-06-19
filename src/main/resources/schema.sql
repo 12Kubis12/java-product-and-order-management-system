@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS order;
-CREATE TABLE order (
+DROP TABLE IF EXISTS orders;
+CREATE TABLE orders (
   id bigint NOT NULL AUTO_INCREMENT,
   paid varchar(10) NOT NULL,
   created_at datetime NOT NULL,
@@ -19,9 +19,12 @@ CREATE TABLE product (
 
 DROP TABLE IF EXISTS order_product;
 CREATE TABLE order_product (
+  id bigint NOT NULL AUTO_INCREMENT,
   order_id bigint NOT NULL,
   product_id bigint NOT NULL,
   amount bigint NOT NULL,
-  FOREIGN KEY (order_id) REFERENCES order(id),
-  FOREIGN KEY (product_id) REFERENCES product(id)
+  PRIMARY KEY (id),
+  FOREIGN KEY (order_id) REFERENCES orders(id),
+  FOREIGN KEY (product_id) REFERENCES product(id),
+  UNIQUE (order_id, product_id)
 );

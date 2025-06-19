@@ -1,17 +1,19 @@
 package parentPackage.implementation.jdbc.service;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import parentPackage.api.ProductService;
-import parentPackage.api.request.AddProductRequest;
-import parentPackage.api.request.ProductAmountRequest;
-import parentPackage.api.request.UpdateProductRequest;
-import parentPackage.domain.ProductAmountResponse;
-import parentPackage.domain.ProductResponse;
+import parentPackage.dto.request.AddProductRequest;
+import parentPackage.dto.request.ProductAmountRequest;
+import parentPackage.dto.request.UpdateProductRequest;
+import parentPackage.dto.response.ProductAmountResponse;
+import parentPackage.dto.response.ProductResponse;
 import parentPackage.implementation.jdbc.repository.ProductJdbcRepository;
 
 import java.util.List;
 
 @Service
+@Profile("jdbc")
 public class ProductServiceJdbcImpl implements ProductService {
     private final ProductJdbcRepository productJdbcRepository;
 
@@ -32,13 +34,14 @@ public class ProductServiceJdbcImpl implements ProductService {
 
     @Override
     public ProductResponse add(AddProductRequest request) {
-        return this.productJdbcRepository.add(request);
+        return this.get(this.productJdbcRepository.add(request));
     }
 
     @Override
     public ProductResponse edit(long id, UpdateProductRequest request) {
         if (this.get(id) != null) {
-            return this.productJdbcRepository.update(id, request);
+            this.productJdbcRepository.update(id, request);
+            return this.get(id);
         }
         return null;
     }
@@ -46,15 +49,16 @@ public class ProductServiceJdbcImpl implements ProductService {
     @Override
     public ProductAmountResponse getAmount(long id) {
         if (this.get(id) != null) {
-            return this.productJdbcRepository.getAmount(id);
+            return new ProductAmountResponse(this.productJdbcRepository.getById(id).getAmount());
         }
         return null;
     }
 
     @Override
-    public ProductAmountResponse addAmount(long id, ProductAmountRequest request) {
+    public ProductAmountResponse updateAmount(long id, ProductAmountRequest request) {
         if (this.get(id) != null) {
-            return this.productJdbcRepository.addAmount(id, request);
+            this.productJdbcRepository.updateAmount(id, request);
+            return new ProductAmountResponse(request.getAmount());
         }
         return null;
     }

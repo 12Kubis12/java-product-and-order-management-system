@@ -1,4 +1,4 @@
-package parentPackage.domain;
+package parentPackage.dto.response;
 
 import lombok.Value;
 
