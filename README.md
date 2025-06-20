@@ -4,13 +4,6 @@ This is a Spring Boot application that provides a RESTful API for managing produ
 
 ---
 
-## 🌐 Live Demo
-
-You can access the deployed API via Swagger UI here:  
-👉 [Live API on Railway](https://java-product-and-order-system-production-9dc7.up.railway.app/swagger-ui/index.html#/)
-
----
-
 ## 📦 Features
 
 - 🛍️ **Product Management**
