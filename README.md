@@ -30,12 +30,14 @@ You can access the deployed API via Swagger UI here:
 - Spring Boot
 - Maven
 - REST API
-- JDBC and JPA -> you can switch between them using the `spring.profiles.default` property in `application.properties`:
+   H2 Database (in-memory)
+- JDBC and JPA -> you can switch between them using the `spring.profiles.default` property in this file:
+
+  [`src/main/resources/application.properties`](https://github.com/12Kubis12/java-product-and-order-system/blob/main/src/main/resources/application.properties)
     ```properties
     spring.profiles.default=jpa  # Use JPA
     spring.profiles.default=jdbc # Use JDBC
     ```
-- H2 Database (in-memory)
 
 ---
 
@@ -44,7 +46,6 @@ You can access the deployed API via Swagger UI here:
 1. Clone the repository:
    ```bash
    git clone https://github.com/12Kubis12/java-product-and-order-system.git
-   cd java-product-and-order-system
 
 2. Build and run the application.
 
@@ -52,7 +53,11 @@ You can access the deployed API via Swagger UI here:
 
    - [API Documentation (Swagger UI)](http://localhost:8080/swagger-ui/index.html#/)
    - [H2 Database Console](http://localhost:8080/h2-console)
- 
+
+4. Testing:
+   - The [`src/main/resources/data.sql`](https://github.com/12Kubis12/java-product-and-order-system/blob/main/src/main/resources/data.sql) file provides predefined data for the database tables, allowing you to manually test the application with sample products and orders.
+   - To prevent conflicts during integration tests, comment out all but the first four lines in `data.sql` before running them.
+
 ---
 
 ## 📚 References
