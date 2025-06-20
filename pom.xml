@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>sk.streetofcode</groupId>
-	<artifactId>product-order-management</artifactId>
+	<artifactId>product-order-management-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>product-order-management</name>
 	<description>Spring Boot project part of Street of Code Java course</description>
