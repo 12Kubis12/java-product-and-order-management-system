@@ -37,7 +37,6 @@ public class OrderServiceJpaImpl implements OrderService {
 
     @Override
     public OrderResponse get(long id) {
-        System.out.println(DtoMapper.mapOrderEntityToOrderResponse(this.findOrderEntity(id)));
         return DtoMapper.mapOrderEntityToOrderResponse(this.findOrderEntity(id));
     }
 
