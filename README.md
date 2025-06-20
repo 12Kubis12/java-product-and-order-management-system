@@ -30,8 +30,11 @@ You can access the deployed API via Swagger UI here:
 - Spring Boot
 - Maven
 - REST API
-- JDBC
-- JPA
+- JDBC and JPA -> you can switch between them using the `spring.profiles.default` property in `application.properties`:
+    ```properties
+    spring.profiles.default=jpa  # Use JPA
+    spring.profiles.default=jdbc # Use JDBC
+    ```
 - H2 Database (in-memory)
 
 ---
@@ -48,4 +51,10 @@ You can access the deployed API via Swagger UI here:
 3. Access the API documentation and H2 database by opening your browser and navigating to:
 
    - [API Documentation (Swagger UI)](http://localhost:8080/swagger-ui/index.html#/)
-   - [H2 Database Console](http://localhost:8080/h2-console)  
+   - [H2 Database Console](http://localhost:8080/h2-console)
+ 
+---
+
+## 📚 References
+
+This project is based on an assignment from the [Street of Code Java Spring Boot Course](https://github.com/StreetOfCode/java-kurz-spring-boot-zadanie).
