@@ -4,7 +4,7 @@ This is a Spring Boot application that provides a RESTful API for managing produ
 
 ---
 
-## 📦 Features
+## ✨ Features
 
 - 🛍️ **Product Management**
   - Create, update, and delete products
