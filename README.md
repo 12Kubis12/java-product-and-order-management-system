@@ -23,7 +23,7 @@ This is a Spring Boot application that provides a RESTful API for managing produ
 - Spring Boot
 - Maven
 - REST API
-   H2 Database (in-memory)
+- H2 Database (in-memory)
 - JDBC and JPA -> you can switch between them using the `spring.profiles.default` property in this file:
 
   [`src/main/resources/application.properties`](https://github.com/12Kubis12/java-product-and-order-system/blob/main/src/main/resources/application.properties)
