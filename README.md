@@ -1,4 +1,4 @@
-# Java Product and Order Management System
+# Java Product and Order Management System 🛒
 
 This is a Spring Boot application that provides a RESTful API for managing products and orders. It allows the creation, update, and deletion of products and orders, including stock management and order payment features.
 
